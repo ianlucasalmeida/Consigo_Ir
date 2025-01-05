@@ -1,22 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
 export default function MedirConsumoScreen() {
-  const [distance, setDistance] = useState('');
-  const [efficiency, setEfficiency] = useState('');
-  const [fuelPrice, setFuelPrice] = useState('');
-  const [result, setResult] = useState<{ litersUsed: number; cost: number } | null>(null);
+  const [distancia, setDistancia] = useState('');
+  const [precoCombustivel, setPrecoCombustivel] = useState('');
+  const [resultado, setResultado] = useState('');
 
-  const handleCalculate = () => {
-    const distanceNum = parseFloat(distance);
-    const efficiencyNum = parseFloat(efficiency);
-    const fuelPriceNum = parseFloat(fuelPrice);
-
-    if (!isNaN(distanceNum) && !isNaN(efficiencyNum) && !isNaN(fuelPriceNum)) {
-      const litersUsed = distanceNum / efficiencyNum;
-      const cost = litersUsed * fuelPriceNum;
-      setResult({ litersUsed, cost });
-    }
+  const calcularConsumo = () => {
+    const distanciaNum = parseFloat(distancia);
+    const precoNum = parseFloat(precoCombustivel);
+    const gasto = distanciaNum * precoNum; // Exemplo de cálculo simples
+    setResultado(`Custo estimado: R$ ${gasto.toFixed(2)}`);
   };
 
   return (
@@ -26,37 +20,62 @@ export default function MedirConsumoScreen() {
         style={styles.input}
         placeholder="Distância (km)"
         keyboardType="numeric"
-        value={distance}
-        onChangeText={setDistance}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Consumo do veículo (km/L)"
-        keyboardType="numeric"
-        value={efficiency}
-        onChangeText={setEfficiency}
+        value={distancia}
+        onChangeText={setDistancia}
       />
       <TextInput
         style={styles.input}
         placeholder="Preço do combustível (R$/L)"
         keyboardType="numeric"
-        value={fuelPrice}
-        onChangeText={setFuelPrice}
+        value={precoCombustivel}
+        onChangeText={setPrecoCombustivel}
       />
-      <Button title="Calcular" onPress={handleCalculate} />
-      {result && (
-        <View style={styles.result}>
-          <Text>Litros consumidos: {result.litersUsed.toFixed(2)} L</Text>
-          <Text>Custo total: R$ {result.cost.toFixed(2)}</Text>
-        </View>
-      )}
+      <TouchableOpacity style={styles.button} onPress={calcularConsumo}>
+        <Text style={styles.buttonText}>Calcular</Text>
+      </TouchableOpacity>
+      {resultado ? <Text style={styles.result}>{resultado}</Text> : null}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
-  input: { borderWidth: 1, padding: 10, marginVertical: 10, borderRadius: 5 },
-  result: { marginTop: 20 },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: '#f5f5f5',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#3b82f6',
+    marginBottom: 16,
+  },
+  input: {
+    width: '100%',
+    padding: 12,
+    borderWidth: 1,
+    borderColor: '#d1d5db',
+    borderRadius: 8,
+    marginBottom: 16,
+    backgroundColor: '#fff',
+  },
+  button: {
+    backgroundColor: '#3b82f6',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  result: {
+    fontSize: 18,
+    color: '#10b981',
+    marginTop: 16,
+  },
 });

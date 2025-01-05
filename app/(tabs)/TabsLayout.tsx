@@ -1,10 +1,9 @@
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Text } from 'react-native';
-import HomeScreen from './(tabs)/home/home';
-import MedirConsumoScreen from './(tabs)/consumo/medirConsumo';
-import buscaCarro from './(tabs)/busca_carro/buscaCarro';
-import { Ionicons } from '@expo/vector-icons';
-import { BsFillFuelPumpFill } from "react-icons/bs";
+import Ionicons from 'react-native-vector-icons/Ionicons'; // Biblioteca de ícones
+import HomeScreen from './home/HomeScreen';
+import MedirConsumoScreen from './consumo/MedirConsumoScreen';
+import buscaCarro from './busca_carro/buscaCarro';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,13 +21,13 @@ export default function TabsLayout() {
           if (route.name === 'Home') {
             iconName = 'home'; // Ícone de casa
           } else if (route.name === 'Medir Consumo') {
-            iconName = 'BsFillFuelPumpFill'; // Ícone de bomba de combustível
+            iconName = 'ios-fuel'; // Ícone de bomba de combustível
           }
           else if (route.name === 'Busca Carro') {
-            iconName = 'car'; // Ícone de carro
+            iconName = 'ios-car'; // Ícone de carro
           }
 
-          return <Ionicons name={iconName as keyof typeof Ionicons.glyphMap} size={size} color={color} />;
+          return <Ionicons name={iconName} size={size} color={color} />;
         },
       })}
     >
